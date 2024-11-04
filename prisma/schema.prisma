@@ -32,6 +32,7 @@ model Student{
   academicInfo AcademicInfo? //One to one (for Now)
   educationInfo Education[] //one to many 
   applicationInfo ApplicationStatus?
+  studentDocuments StudentDocuments[]
 }
 model Address{
   id String @id @default(uuid())
@@ -84,6 +85,16 @@ model ApplicationStatus{
   studentId String @unique
 }
 
+model StudentDocuments{
+  id String @id @default(uuid())
+  category DocumentCategory
+  fileKey String @map("file_key")
+
+  //relation
+  student Student @relation(fields: [studentId],references: [id])
+  studentId String
+}
+
 enum MaritalStatus {
   SINGLE
   MARRIED
@@ -118,4 +129,15 @@ enum EducationGap {
   LESS_THAN_A_YEAR 
   ONE_TO_TWO_YEARS 
   MORE_THAN_TWO_YEARS 
+}
+
+enum DocumentCategory {
+    TENTH_MARKSHEET
+    TWELFTH_MARSHEET
+    PASSPORT 
+    TEST_CERTIFICATE
+    SOP
+    CV
+    EXPERIENCE
+    BACHELOR_DEGREE
 }
