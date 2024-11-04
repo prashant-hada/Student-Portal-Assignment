@@ -33,6 +33,14 @@ enum Country {
   UK
   AUSTRALIA
 }
+
+enum EnglishTest {
+  IELTS
+  TOEFL
+  PTE
+  DUOLINGO
+  OTHER 
+}
 model Student{
   id  String @id @default(uuid())
   email String @unique
@@ -49,6 +57,7 @@ model Student{
 
 //relations
   address Address?
+  academicInfo AcademicInfo?
 }
 model Address{
   id String @id @default(uuid())
@@ -59,9 +68,10 @@ model Address{
 }
 
 
-// We can create another table for specifically for passport Info 
-//condieringg a student can have more than one passport(in case one is about to expire and he accquired a new one)
+// We can create another table for specifically for passport Info considering
+// a student can have more than one passport(in case one is about to expire and he accquired a new one)
 // but for now I'm ignoring that possibility
+//
 // model PassportInfo{
 //   id String @id @default(uuid())
 //   passportNo String? @map("passport_no")
@@ -69,3 +79,12 @@ model Address{
 //   student Student @relation(fields: [studentId], references: [id])
 //   studentId String 
 // }
+
+model AcademicInfo {
+  id String   @id @default(uuid())
+  interestedCountry Country
+  englishTest EnglishTest  
+  testScore Int 
+  student Student  @relation(fields: [studentId], references: [id])
+  studentId String @unique
+}
