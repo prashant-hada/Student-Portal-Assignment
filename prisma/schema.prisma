@@ -12,35 +12,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-enum MaritalStatus {
-  SINGLE
-  MARRIED
-  DIVORCED
-  WIDOW
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
-enum Country {
-  INDIA
-  USA
-  CANADA
-  UK
-  AUSTRALIA
-}
-
-enum EnglishTest {
-  IELTS
-  TOEFL
-  PTE
-  DUOLINGO
-  OTHER 
-}
 model Student{
   id  String @id @default(uuid())
   email String @unique
@@ -54,10 +25,13 @@ model Student{
   dob DateTime
   passportNo String? @map("passport_no")
   passportExpiryDate String? @map("passport_expiry_date")
+  educationGap EducationGap?
 
 //relations
-  address Address?
-  academicInfo AcademicInfo?
+  address Address? //One to one (for Now)
+  academicInfo AcademicInfo? //One to one (for Now)
+  educationInfo Education[] //one to many 
+  applicationInfo ApplicationStatus?
 }
 model Address{
   id String @id @default(uuid())
@@ -87,4 +61,61 @@ model AcademicInfo {
   testScore Int 
   student Student  @relation(fields: [studentId], references: [id])
   studentId String @unique
+}
+
+model Education{
+  id String @id @default(uuid())
+  qualification String
+  institution String
+  percentage String
+  passingYear DateTime @map("passing_year")
+  country Country
+
+  //relation
+  student Student @relation(fields: [studentId],references: [id])
+  studentId String
+}
+
+model ApplicationStatus{
+  id String @id @default(uuid())
+  visaRejectionStatus Boolean
+  //relation
+  student Student @relation(fields: [studentId],references: [id])
+  studentId String @unique
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOW
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Country {
+  INDIA
+  USA
+  CANADA
+  UK
+  AUSTRALIA
+}
+
+enum EnglishTest {
+  IELTS
+  TOEFL
+  PTE
+  DUOLINGO
+  OTHER 
+}
+
+enum EducationGap {
+  NONE
+  LESS_THAN_A_YEAR 
+  ONE_TO_TWO_YEARS 
+  MORE_THAN_TWO_YEARS 
 }
