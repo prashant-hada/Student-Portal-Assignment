@@ -12,3 +12,60 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOW
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Country {
+  INDIA
+  USA
+  CANADA
+  UK
+  AUSTRALIA
+}
+model Student{
+  id  String @id @default(uuid())
+  email String @unique
+  firstName String @map("first_name")
+  middleName String @map("middle_name")
+  lastName String @map("last_name")
+  mobileNo String @map("mobile_no")
+  emergencyNo String @map("emergency_no")
+  maritalStatus MaritalStatus @default(SINGLE)
+  gender Gender @default(OTHER)
+  dob DateTime
+  passportNo String? @map("passport_no")
+  passportExpiryDate String? @map("passport_expiry_date")
+
+//relations
+  // address Address?
+}
+// model Address{
+//   id String @id @default(uuid())
+//   student Student @relation(fields: [studentId], references: [id])
+//   studentId String @unique
+//   country Country 
+//   pincode String
+// }
+
+
+// We can create another table for specifically for passport Info 
+//condieringg a student can have more than one passport(in case one is about to expire and he accquired a new one)
+// but for now I'm ignoring that possibility
+// model PassportInfo{
+//   id String @id @default(uuid())
+//   passportNo String? @map("passport_no")
+//   passportExpiryDate String? @map("passport_expiry_date")
+//   student Student @relation(fields: [studentId], references: [id])
+//   studentId String 
+// }
