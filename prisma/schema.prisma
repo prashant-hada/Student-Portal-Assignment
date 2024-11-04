@@ -24,8 +24,11 @@ model Student{
   gender Gender @default(OTHER)
   dob DateTime
   passportNo String? @map("passport_no")
-  passportExpiryDate String? @map("passport_expiry_date")
+  passportExpiryDate DateTime? @map("passport_expiry_date")
   educationGap EducationGap?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
 //relations
   address Address? //One to one (for Now)
@@ -36,10 +39,13 @@ model Student{
 }
 model Address{
   id String @id @default(uuid())
-  student Student @relation(fields: [studentId], references: [id])
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String @unique
   country Country 
   pincode String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 
@@ -60,8 +66,11 @@ model AcademicInfo {
   interestedCountry Country
   englishTest EnglishTest  
   testScore Int 
-  student Student  @relation(fields: [studentId], references: [id])
+  student Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Education{
@@ -72,8 +81,11 @@ model Education{
   passingYear DateTime @map("passing_year")
   country Country
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
   //relation
-  student Student @relation(fields: [studentId],references: [id])
+  student Student @relation(fields: [studentId],references: [id], onDelete: Cascade)
   studentId String
 }
 
@@ -81,8 +93,11 @@ model ApplicationStatus{
   id String @id @default(uuid())
   visaRejectionStatus Boolean
   //relation
-  student Student @relation(fields: [studentId],references: [id])
+  student Student @relation(fields: [studentId],references: [id], onDelete: Cascade)
   studentId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model StudentDocuments{
@@ -90,8 +105,11 @@ model StudentDocuments{
   category DocumentCategory
   fileKey String @map("file_key")
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
   //relation
-  student Student @relation(fields: [studentId],references: [id])
+  student Student @relation(fields: [studentId],references: [id], onDelete: Cascade)
   studentId String
 }
 
