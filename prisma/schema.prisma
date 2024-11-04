@@ -48,15 +48,15 @@ model Student{
   passportExpiryDate String? @map("passport_expiry_date")
 
 //relations
-  // address Address?
+  address Address?
 }
-// model Address{
-//   id String @id @default(uuid())
-//   student Student @relation(fields: [studentId], references: [id])
-//   studentId String @unique
-//   country Country 
-//   pincode String
-// }
+model Address{
+  id String @id @default(uuid())
+  student Student @relation(fields: [studentId], references: [id])
+  studentId String @unique
+  country Country 
+  pincode String
+}
 
 
 // We can create another table for specifically for passport Info 
