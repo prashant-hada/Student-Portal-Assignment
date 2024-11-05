@@ -9,6 +9,7 @@ datasource db {
 model Student{
   id  String @id @default(uuid())
   email String @unique
+  title Title
   firstName String @map("first_name")
   middleName String @map("middle_name")
   lastName String @map("last_name")
@@ -20,6 +21,7 @@ model Student{
   passportNo String? @map("passport_no")
   passportExpiryDate DateTime? @map("passport_expiry_date")
   educationGap EducationGap?
+  registrationStage RegistrationStage @default(STAGE1)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -105,6 +107,23 @@ model StudentDocuments{
   //relation
   student Student @relation(fields: [studentId],references: [id], onDelete: Cascade)
   studentId String
+}
+
+enum Title {
+  MR 
+  MRS 
+  MISS 
+  DR 
+  PROF
+}
+
+enum RegistrationStage {
+  STAGE1
+  STAGE2
+  STAGE3
+  STAGE4
+  STAGE5
+  STAGE6
 }
 
 enum MaritalStatus {
